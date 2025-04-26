@@ -1,0 +1,38 @@
+{
+  "latest": [
+    {
+      "idMeal": "1",
+      "strMeal": "Creamy Mushroom Pasta",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/xxpqsy1511452222.jpg"
+    },
+    {
+      "idMeal": "2",
+      "strMeal": "Spicy Ramen Bowl",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/wyxwsp1486979827.jpg"
+    }
+  ],
+  "popular": [
+    {
+      "idMeal": "3",
+      "strMeal": "Chicken Biryani",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/xrttsx1487339558.jpg"
+    },
+    {
+      "idMeal": "4",
+      "strMeal": "Grilled Cheese Sandwich",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/1548772327.jpg"
+    }
+  ],
+  "fastest": [
+    {
+      "idMeal": "5",
+      "strMeal": "Egg Salad",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/1550440197.jpg"
+    },
+    {
+      "idMeal": "6",
+      "strMeal": "Tomato Toast",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/categories.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=bookmark" />
+    
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <nav class="nav-container">
+          <div class="logo">
+            <a href="#">Epicure</a>
+          </div>
+          <div class="nav-right">
+            <ul class="nav-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="recipes.html">Recipes</a></li>
+              <li><a href="cuisine.html">Cuisines</a></li>
+              <li><a href="categories.html">Categories</a></li>
+            </ul>
+            <div class="nav-icons">
+              <a href="#" title="Saved Recipes">
+                <span class="material-symbols-outlined">
+                  bookmark
+                  </span>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+    <div class="categories">
+        <h2>Categories</h2>
+        <ul id="categoryList">
+            <!-- Categories will be dynamically populated here -->
+        </ul>
+    </div>
+
+    <script src="./js/categories.js"></script>
+
+</body>
+</html>

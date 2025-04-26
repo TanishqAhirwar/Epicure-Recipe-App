@@ -1,0 +1,51 @@
+.recipes-page {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.recipes-page h1 {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.recipe-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.recipe-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.recipe-card:hover {
+  transform: translateY(-6px);
+}
+
+.recipe-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  height: 180px;
+  object-fit: cover;
+}
+
+.recipe-card h3 {
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: #222;
+}
+
+.recipe-card p {
+  font-size: 14px;
+  color: #666;
+}
