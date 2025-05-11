@@ -1,0 +1,93 @@
+/* Reset some default browser styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fdfdfd;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+} */
+
+#recipeDetailsContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#recipeDetailsContainer h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+#recipeDetailsContainer img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+#recipeDetailsContainer p {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+#recipeDetailsContainer strong {
+  color: #555;
+}
+
+#recipeDetailsContainer h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: #34495e;
+}
+
+#recipeDetailsContainer ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+#recipeDetailsContainer ul li {
+  margin-bottom: 6px;
+}
+
+#recipeDetailsContainer a {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: #e74c3c;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+#recipeDetailsContainer a:hover {
+  color: #c0392b;
+}
+
+@media (max-width: 600px) {
+  #recipeDetailsContainer {
+    padding: 20px;
+  }
+
+  #recipeDetailsContainer h2 {
+    font-size: 1.5rem;
+  }
+
+  #recipeDetailsContainer h3 {
+    font-size: 1.2rem;
+  }
+
+  #recipeDetailsContainer p, li {
+    font-size: 0.95rem;
+  }
+}

@@ -177,10 +177,10 @@
   width: 100%;
   height: 2px;
   background-color: #000;
-}
+}  
 
-/* Recipe container */
-.recipe-container {
+ 
+.recipe-container{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 25px;
@@ -326,7 +326,7 @@
   background-color: #ddd;
 }
 
-.category-recipes {
+.category-recipes, #recipe-container{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
@@ -427,74 +427,84 @@
   color: #e64a19;
 }
 
+/* Testimonials Section Styles */
 .testimonial-section {
   padding: 60px 20px;
   text-align: center;
-  /* background-color: #fdf5f0; */
-  font-family: 'Segoe UI', sans-serif;
+  background-color: #f7f7f7;
 }
 
 .testimonial-title {
-  font-size: 2rem;
-  color: #ff5722;
-  margin-bottom: 40px;
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 30px;
 }
 
-.testimonial-container {
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+.owl-carousel .item {
+  padding: 20px;
 }
 
 .testimonial-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.testimonial-content:hover {
+  transform: translateY(-10px);
 }
 
 .testimonial-content img {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 130px;
   border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 15px;
+  object-fit:contain;
+  margin-bottom: 20px;
 }
 
 .testimonial-content h3 {
   font-size: 1.2rem;
-  margin-bottom: 5px;
+  font-weight: bold;
   color: #333;
+  margin-bottom: 10px;
 }
 
 .testimonial-content p {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #666;
   line-height: 1.5;
+  margin-bottom: 20px;
 }
 
-.testimonial-buttons {
-  margin-top: 20px;
+.owl-nav {
+  display: flex;
+  justify-content: space-between;
 }
 
-.testimonial-buttons button {
+.owl-prev, .owl-next {
   background-color: #ff5722;
   color: white;
   border: none;
-  font-size: 1.2rem;
-  margin: 0 10px;
-  padding: 10px 15px;
+  padding: 10px;
   border-radius: 50%;
+  font-size: 18px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.testimonial-buttons button:hover {
+.owl-prev:hover, .owl-next:hover {
   background-color: #e64a19;
 }
+
+ 
+ 
+
+ 
+
+
 
 .tags-section {
   padding: 40px 20px;

@@ -1,11 +1,10 @@
-// Fetch all categories and add to tabs
+// Load category tabs (below tabbed section)
 async function loadCategories() {
   const res = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php');
   const data = await res.json();
 
   const tabContainer = document.getElementById('category-tabs');
 
-  // Add all category buttons
   data.categories.forEach(cat => {
     const btn = document.createElement('button');
     btn.className = 'category-tab';
@@ -14,22 +13,18 @@ async function loadCategories() {
     tabContainer.appendChild(btn);
   });
 
-  // Set up tab click events
   document.querySelectorAll('.category-tab').forEach(button => {
     button.addEventListener('click', () => {
       document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
       button.classList.add('active');
-
-      const selectedCategory = button.dataset.category;
-      fetchMealsByCategory(selectedCategory); // Always call this regardless of "all"
+      fetchMealsByCategory(button.dataset.category);
     });
   });
 
-  // Load All Recipes on first load
   fetchMealsByCategory('all');
 }
 
-// Fetch meals for a category
+// Fetch meals for category section
 async function fetchMealsByCategory(category) {
   let meals = [];
 
@@ -43,17 +38,23 @@ async function fetchMealsByCategory(category) {
     meals = data.meals;
   }
 
-  renderMeals(meals.slice(0, 10)); // always show only first 10
+  renderMeals(meals.slice(0, 10), 'category-recipes');
 }
 
-// Render cards
-function renderMeals(meals) {
-  const container = document.getElementById('category-recipes');
+// Fetch meal details by ID
+async function getMealDetailsById(id) {
+  const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const data = await res.json();
+  return data.meals[0];
+}
+
+// Render meal cards into given container
+function renderMeals(meals, containerId) {
+  const container = document.getElementById(containerId);
   container.innerHTML = meals.map(meal => {
-    // Dummy placeholders for now
-    const rating = (Math.random() * 2 + 3).toFixed(1); // between 3.0 - 5.0
-    const cookTime = `${Math.floor(Math.random() * 30 + 20)} mins`; // 20-50 mins
-    const cuisine = meal.strArea || "Global"; // or unknown
+    const rating = (Math.random() * 2 + 3).toFixed(1);
+    const cookTime = `${Math.floor(Math.random() * 30 + 20)} mins`;
+    const cuisine = meal.strArea || "Global";
     const level = ["Easy", "Medium", "Hard"][Math.floor(Math.random() * 3)];
 
     return `
@@ -79,53 +80,46 @@ function renderMeals(meals) {
   }).join('');
 }
 
+// Load recipes in tabbed section with logic
+async function loadTabMeals(type) {
+  const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+  const data = await res.json();
+  let meals = data.meals || [];
 
-// Load categories
-loadCategories();
-
- 
-  // Dummy static recipe data (replace with actual API if needed)
-  const recipesData = {
-    latest: [
-      { name: 'Creamy Chicken', img: 'https://www.themealdb.com/images/media/meals/1529446137.jpg' },
-      { name: 'Grilled Salmon', img: 'https://www.themealdb.com/images/media/meals/1548772327.jpg' },
-      // Add more latest recipes...
-    ],
-    popular: [
-      { name: 'Spaghetti Bolognese', img: 'https://www.themealdb.com/images/media/meals/sutysw1468247559.jpg' },
-      { name: 'Chicken Tikka', img: 'https://www.themealdb.com/images/media/meals/urpvvv1511794034.jpg' },
-      // Add more popular recipes...
-    ],
-    fastest: [
-      { name: 'Fried Rice', img: 'https://www.themealdb.com/images/media/meals/1529443236.jpg' },
-      { name: 'Avocado Toast', img: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg' },
-      // Add more fastest recipes...
-    ]
-  };
-
-  function renderRecipes(category) {
-    const container = document.getElementById('recipe-container');
-    const recipes = recipesData[category];
-
-    container.innerHTML = recipes.map(recipe => `
-      <div class="recipe-card">
-        <img src="${recipe.img}" alt="${recipe.name}">
-        <h4>${recipe.name}</h4>
-      </div>
-    `).join('');
+  if (type === 'latest') {
+    meals = meals.sort((a, b) => b.idMeal - a.idMeal).slice(0, 10);
   }
 
-  // Handle tab clicks
-  document.querySelectorAll('.tab').forEach(button => {
-    button.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-      button.classList.add('active');
+  else if (type === 'popular') {
+    const popularCategories = ['Beef', 'Chicken', 'Dessert'];
+    meals = meals.filter(meal => popularCategories.includes(meal.strCategory)).slice(0, 10);
+  }
 
-      const selectedCategory = button.dataset.category;
-      renderRecipes(selectedCategory);
-    });
+  else if (type === 'fastest') {
+    // Count number of ingredients
+    const mealsWithIngredients = await Promise.all(meals.slice(0, 20).map(async (meal) => {
+      const fullMeal = await getMealDetailsById(meal.idMeal);
+      const ingredients = Object.keys(fullMeal).filter(k => k.startsWith('strIngredient') && fullMeal[k]);
+      return { ...meal, ingredientCount: ingredients.length };
+    }));
+
+    meals = mealsWithIngredients.sort((a, b) => a.ingredientCount - b.ingredientCount).slice(0, 10);
+  }
+
+  renderMeals(meals, 'recipe-container');
+}
+
+// Tab click handling for tabbed section
+document.querySelectorAll('.tab').forEach(button => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    button.classList.add('active');
+    loadTabMeals(button.dataset.category);
   });
+});
 
-  // Initial render
-  renderRecipes('latest');
- 
+// Initial load
+document.addEventListener('DOMContentLoaded', () => {
+  loadCategories();
+  loadTabMeals('latest');
+});

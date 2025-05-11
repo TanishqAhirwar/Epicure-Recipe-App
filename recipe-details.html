@@ -3,13 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <title>Recipe Details</title>
-    <link rel="stylesheet" href="../styles/styles.css" />
+    
+    <link rel="stylesheet" href="./css/recipeDetails.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=bookmark"
+    />
   </head>
   <body>
+
+    <header class="navbar">
+      <nav class="nav-container">
+        <div class="logo">
+          <a href="#">Epicure</a>
+        </div>
+        <div class="nav-right">
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="cuisine.html">Cuisines</a></li>
+            <li><a href="categories.html">Categories</a></li>
+          </ul>
+          <div class="nav-icons">
+            <a href="#" title="Saved Recipes">
+              <span class="material-symbols-outlined"> bookmark </span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
     <div id="recipeDetailsContainer" class="details-container">
       <!-- Recipe details will load here -->
     </div>
 
     <script src="./js/recipeDetails.js"></script>
+    <script src="./js/script.js"></script>
   </body>
 </html>

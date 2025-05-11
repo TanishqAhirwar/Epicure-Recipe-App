@@ -5,47 +5,73 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-.recipes-page h1 {
+.recipes-page h1,
+#categoryName {
   text-align: center;
-  font-size: 36px;
-  margin-bottom: 30px;
+  font-size: 2.5rem;
   color: #333;
+  margin-bottom: 1rem;
+}
+
+#placeholderText {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 2rem;
 }
 
 .recipe-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  justify-content: center;
+  gap: 24px;
+  padding: 10px;
+}
+
+.recipe-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.recipe-card {
+  width: 100%;
+  max-width: 320px; /* Keep it clean and consistent */
 }
 
 .recipe-card {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  padding: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.3s ease;
-  cursor: pointer;
 }
 
 .recipe-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-5px);
 }
 
 .recipe-card img {
   width: 100%;
-  border-radius: 8px;
-  margin-bottom: 12px;
   height: 180px;
   object-fit: cover;
 }
 
+.recipe-card .card-content {
+  padding: 16px;
+}
+
 .recipe-card h3 {
-  font-size: 20px;
-  margin-bottom: 6px;
+  font-size: 1.2rem;
+  margin: 8px 0 4px;
   color: #222;
 }
 
 .recipe-card p {
-  font-size: 14px;
+  font-size: 0.9rem;
   color: #666;
+  margin-bottom: 6px;
 }

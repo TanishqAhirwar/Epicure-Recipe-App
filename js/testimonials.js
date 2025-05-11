@@ -16,35 +16,35 @@ const testimonials = [
   }
 ];
 
-let currentTestimonial = 0;
+const testimonialCarouselContainer = document.getElementById('testimonialCarousel');
 
-const testimonialBox = document.getElementById("testimonialContainer");
-
-function showTestimonial(index) {
-  const t = testimonials[index];
-  testimonialBox.innerHTML = `
+testimonials.forEach(t => {
+  const div = document.createElement('div');
+  div.className = 'item';
+  div.innerHTML = `
     <div class="testimonial-content">
       <img src="${t.image}" alt="${t.name}">
       <h3>${t.name}</h3>
       <p>"${t.text}"</p>
     </div>
   `;
-}
+  testimonialCarouselContainer.appendChild(div);
+});
 
-// Make these functions globally available
-window.nextTestimonial = function () {
-  currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-  showTestimonial(currentTestimonial);
-};
-
-window.prevTestimonial = function () {
-  currentTestimonial =
-    (currentTestimonial - 1 + testimonials.length) % testimonials.length;
-  showTestimonial(currentTestimonial);
-};
-
-// Initial render
-showTestimonial(currentTestimonial);
-
-// Auto-slide every 5 seconds
-setInterval(window.nextTestimonial, 5000);
+$(document).ready(function () {
+  $('#testimonialCarousel').owlCarousel({
+    loop: true,
+    margin: 20,
+    nav: true,        // Enable next/prev arrows
+    dots: true,       // Enable dots
+    autoplay: true,
+    autoplayTimeout: 5000,
+    autoplayHoverPause: true,
+    navText: ['<span class="nav-arrow left">&#8592;</span>', '<span class="nav-arrow right">&#8594;</span>'],
+    responsive: {
+      0: { items: 1 },
+      768: { items: 2 },
+      1024: { items: 3 }
+    }
+  });
+});

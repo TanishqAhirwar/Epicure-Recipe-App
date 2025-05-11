@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recipe App</title>
     <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"/>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    
 
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=bookmark"
     />
+
   </head>
   <body>
     <header class="navbar">
@@ -55,15 +62,14 @@
         <button class="tab active" data-category="latest">
           Latest Recipes
         </button>
-        <button class="tab" data-category="popular">
-          Most Popular Recipes
-        </button>
+        <button class="tab" data-category="popular">Most Popular</button>
         <button class="tab" data-category="fastest">Fastest Recipes</button>
       </div>
+      <div id="recipe-container"></div>
+      <!-- For tab recipes -->
 
-      <div id="recipe-container" class="recipe-container">
-        <!-- Recipes will be rendered here -->
-      </div>
+      
+      <!-- For category recipes -->
     </section>
 
     <section class="recipe-highlight-section">
@@ -113,16 +119,12 @@
     </section>
 
     <section class="testimonial-section">
-      <h2 class="testimonial-title">What Our Users Say</h2>
-      <div class="testimonial-container" id="testimonialContainer">
-        <!-- Testimonials will be inserted by JS -->
-      </div>
-      <div class="testimonial-buttons">
-        <button onclick="prevTestimonial()"><</button>
-        <button onclick="nextTestimonial()">></button>
+      <h2 class="testimonial-title">What People Are Saying</h2>
+      <div class="owl-carousel owl-theme" id="testimonialCarousel">
+        <!-- JS will inject items here -->
       </div>
     </section>
-
+    
     <section class="tags-section">
       <h2 class="tags-title">Popular Tags</h2>
       <div class="tags-container" id="tagsContainer">
@@ -174,5 +176,7 @@
     <script src="js/blogs.js"></script>
     <script src="js/testimonials.js"></script>
     <script src="js/tags.js"></script>
+    <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
+  
   </body>
 </html>
