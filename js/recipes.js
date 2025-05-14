@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const recipeContainer = document.getElementById('recipeContainer');
+  const recipeContainer = document.getElementById('recipe-container');
   const categoryName = document.getElementById('categoryName');
 
   function loadRecipesFromURL() {
