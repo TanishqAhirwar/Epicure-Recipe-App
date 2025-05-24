@@ -56,18 +56,18 @@
             id="search-input"
             placeholder="Search recipes..."
           />
-          <button onclick="handleSearch()">Search</button>
+          <button class="search-btn" onclick="handleSearch()">Search</button>
         </div>
       </div>
     </section>
 
     <section class="recipe-tabs-section">
       <div class="tabs">
-        <button class="tab active" data-category="latest">
+        <div class="tab active" data-category="latest">
           Latest Recipes
-        </button>
-        <button class="tab" data-category="popular">Most Popular</button>
-        <button class="tab" data-category="fastest">Fastest Recipes</button>
+        </div>
+        <div class="tab" data-category="popular">Most Popular</div>
+        <div class="tab" data-category="fastest">Fastest Recipes</div>
       </div>
       <div id="recipe-container"></div>
       <!-- For tab recipes -->

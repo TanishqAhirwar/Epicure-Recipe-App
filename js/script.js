@@ -9,48 +9,62 @@ async function loadCategories() {
     const btn = document.createElement('button');
     btn.className = 'category-tab';
     btn.setAttribute('data-category', cat.strCategory);
+    btn.setAttribute('aria-pressed', 'false');
     btn.textContent = cat.strCategory;
     tabContainer.appendChild(btn);
   });
 
+  // Tab click logic
   document.querySelectorAll('.category-tab').forEach(button => {
     button.addEventListener('click', () => {
-      document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.category-tab').forEach(tab => {
+        tab.classList.remove('active');
+        tab.setAttribute('aria-pressed', 'false');
+      });
       button.classList.add('active');
+      button.setAttribute('aria-pressed', 'true');
       fetchMealsByCategory(button.dataset.category);
     });
   });
 
-  fetchMealsByCategory('all');
+  fetchMealsByCategory('all'); // Load default
 }
 
-// Fetch meals for category section
+// Fetch meals by category
 async function fetchMealsByCategory(category) {
   let meals = [];
 
-  if (category === 'all') {
-    const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-    const data = await res.json();
-    meals = data.meals;
-  } else {
-    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
-    const data = await res.json();
-    meals = data.meals;
+  try {
+    if (category === 'all') {
+      const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+      const data = await res.json();
+      meals = data.meals;
+    } else {
+      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+      const data = await res.json();
+      meals = data.meals;
+    }
+    renderMeals(meals.slice(0, 10), 'category-recipes');
+  } catch (err) {
+    console.error(err);
   }
-
-  renderMeals(meals.slice(0, 10), 'category-recipes');
 }
 
-// Fetch meal details by ID
+// Get full meal details by ID
 async function getMealDetailsById(id) {
   const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
   const data = await res.json();
   return data.meals[0];
 }
 
-// Render meal cards into given container
+// Render meal cards into a container
 function renderMeals(meals, containerId) {
   const container = document.getElementById(containerId);
+  if (!meals) {
+    container.innerHTML = '<p>No meals found.</p>';
+    return;
+  }
+
   container.innerHTML = meals.map(meal => {
     const rating = (Math.random() * 2 + 3).toFixed(1);
     const cookTime = `${Math.floor(Math.random() * 30 + 20)} mins`;
@@ -80,34 +94,52 @@ function renderMeals(meals, containerId) {
   }).join('');
 }
 
-// Load tabbed meals (Latest, Popular, Fastest)
+// Load tabbed section meals (Latest, Popular, Fastest)
 async function loadTabMeals(type) {
+  const container = document.getElementById('recipe-container');
+  container.innerHTML = "<p>Loading meals...</p>";
+
   const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
   const data = await res.json();
   let meals = data.meals || [];
 
-  if (type === 'latest') {
-    meals = meals.sort((a, b) => b.idMeal - a.idMeal).slice(0, 10);
-  } else if (type === 'popular') {
-    const popularCategories = ['Beef', 'Chicken', 'Dessert'];
-    meals = meals.filter(meal => popularCategories.includes(meal.strCategory)).slice(0, 10);
-  } else if (type === 'fastest') {
-    const mealsWithIngredients = await Promise.all(meals.slice(0, 20).map(async (meal) => {
-      const fullMeal = await getMealDetailsById(meal.idMeal);
-      const ingredients = Object.keys(fullMeal).filter(k => k.startsWith('strIngredient') && fullMeal[k]);
-      return { ...meal, ingredientCount: ingredients.length };
-    }));
-    meals = mealsWithIngredients.sort((a, b) => a.ingredientCount - b.ingredientCount).slice(0, 10);
-  }
+  try {
+    if (type === 'latest') {
+      meals = meals.sort((a, b) => b.idMeal - a.idMeal).slice(0, 10);
+    } else if (type === 'popular') {
+      const popularCategories = ['Beef', 'Chicken', 'Dessert'];
+      meals = meals.filter(meal => popularCategories.includes(meal.strCategory)).slice(0, 10);
+    } else if (type === 'fastest') {
+      const topMeals = meals.slice(0, 20);
+      const settledResults = await Promise.allSettled(topMeals.map(meal => getMealDetailsById(meal.idMeal)));
 
-  renderMeals(meals, 'recipe-container');
+      const mealsWithIngredients = settledResults
+        .filter(result => result.status === "fulfilled" && result.value)
+        .map(result => {
+          const meal = result.value;
+          const ingredients = Object.keys(meal).filter(k => k.startsWith("strIngredient") && meal[k]);
+          return { ...meal, ingredientCount: ingredients.length };
+        });
+
+      meals = mealsWithIngredients.sort((a, b) => a.ingredientCount - b.ingredientCount).slice(0, 10);
+    }
+
+    renderMeals(meals, 'recipe-container');
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = "<p>Failed to load tabbed meals.</p>";
+  }
 }
 
-// Tab click handling
+// Tab click handler
 document.querySelectorAll('.tab').forEach(button => {
   button.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.classList.remove('active');
+      tab.setAttribute('aria-pressed', 'false');
+    });
     button.classList.add('active');
+    button.setAttribute('aria-pressed', 'true');
     loadTabMeals(button.dataset.category);
   });
 });
@@ -121,12 +153,9 @@ function handleSearch() {
 }
 window.handleSearch = handleSearch;
 
-// Recipes page: fetch results based on stored query
+// Fetch and show search results on recipes.html
 async function fetchSearchResults(query) {
   const container = document.getElementById("recipe-container");
-  // const heading = document.getElementById("search-heading");
-  
-  // heading.textContent = `Search results for "${query}" recipes`;
   container.innerHTML = "<p>Loading recipes...</p>";
 
   try {
@@ -147,7 +176,7 @@ async function fetchSearchResults(query) {
           <img src="${meal.strMealThumb}" alt="${meal.strMeal}" class="recipe-img" />
           <div class="recipe-info">
             <h3>${meal.strMeal}</h3>
-            <p>${meal.strCategory} | ${meal.strArea}</p>
+            <p>${meal.strCategory || 'Unknown'} | ${meal.strArea || 'Global'}</p>
             <a href="recipe-details.html?id=${meal.idMeal}" class="details-link">View Recipe</a>
           </div>
         </div>
@@ -161,17 +190,7 @@ async function fetchSearchResults(query) {
   }
 }
 
-// Only run this on recipes.html
-document.addEventListener("DOMContentLoaded", () => {
-  if (window.location.pathname.includes("recipes.html")) {
-    const query = localStorage.getItem("searchQuery");
-    if (query) {
-      fetchSearchResults(query);
-      localStorage.removeItem("searchQuery");
-    }
-  }
-});
-
+// Initial Page Load Logic
 document.addEventListener("DOMContentLoaded", () => {
   const isRecipesPage = window.location.pathname.includes("recipes.html");
 
@@ -182,8 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("searchQuery");
     }
   } else {
-    // You are on index.html (homepage)
     loadCategories();
-    loadTabMeals("latest"); // Default tab
+    loadTabMeals("latest"); // Default selected tab
   }
 });

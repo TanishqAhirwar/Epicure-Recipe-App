@@ -7,7 +7,7 @@ const testimonials = [
   {
     name: "Saanvi Mehta",
     text: "As a vegan, it’s tough finding good blogs. But this site has a great variety and everything tastes great!",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    image: "assets/testimonial-2.jpg",
   },
   {
     name: "Ravi Kumar",
